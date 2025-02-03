@@ -1,0 +1,23 @@
+name: GitHub Actions Test
+run-name: ${{ github.actor }} is testing out GitHub Actions
+on: [workflow_dispatch]
+jobs:
+  Testing-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Run build repository
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+        run: |
+          ls ${{ github.workspace }}
+          bash --version
+          (
+            cd source
+            ls -laR
+            terraform init
+            terraform plan
+          )
+
+      - run: echo "This job's status is ${{ job.status }}."
